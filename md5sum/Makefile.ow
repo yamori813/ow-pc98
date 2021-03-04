@@ -1,0 +1,16 @@
+#
+# BSD Makefile for Open Watcom v2 tools
+#
+
+WATCOM=/home/hiroki/ow/open-watcom-v2/rel
+.export WATCOM
+
+WCL=bwcl
+
+CFLAGS=-I$(WATCOM)/h
+
+md5sum.exe : md5.c md5sum.c
+	$(WCL) $(CFLAGS) -fe=$@ $?
+
+clean:
+	rm -rf *.o *.err *.exe
