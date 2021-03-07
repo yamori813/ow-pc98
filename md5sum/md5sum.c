@@ -36,7 +36,7 @@ int do_check(FILE *chkf);
 
 char *progname;
 int verbose = 0;
-int bin_mode = 0;
+int bin_mode = 1;
 
 void
 main(int argc, char **argv)
@@ -51,7 +51,7 @@ main(int argc, char **argv)
 		switch (opt) {
 			case 'c': check = 1; break;
 			case 'v': verbose = 1; break;
-			case 'b': bin_mode = 1; break;
+			case 't': bin_mode = 0; break;
 			default: usage();
 		}
 	}

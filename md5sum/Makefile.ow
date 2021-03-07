@@ -9,7 +9,7 @@ WCL=bwcl
 
 CFLAGS=-I$(WATCOM)/h
 
-md5sum.exe : md5.c md5sum.c
+md5.exe : md5.c md5sum.c
 	$(WCL) $(CFLAGS) -fe=$@ $?
 
 clean:
