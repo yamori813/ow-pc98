@@ -15,13 +15,11 @@ int main()
 {
 	int vect;
 	char far *addr;
-	char c;
 
 	vect = 0x22;
 	while ( vect < 0x100){
 		addr = (char *far)_dos_getvect(vect);
 		addr -= 9L;
-		c = addr[0];
 		if (_fstrcmp(addr, "%TEENAPI") == 0) {
 			teen_version(vect);
 			return 1;
