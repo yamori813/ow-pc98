@@ -8,7 +8,7 @@ union REGS regs;
 
 	regs.h.ah = 0x01;
 	int86(vect, &regs, &regs);
-	printf("TEEN Vector %x Version %d.%d", vect, regs.h.ah, regs.h.al);
+	printf("TEEN Vector %x Version %d.%d", vect, regs.h.al, regs.h.ah);
 }
 
 int main()
