@@ -1,6 +1,9 @@
 #include <dos.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+#define TEENIFIDENT	"%TEENAPI"
 
 void teen_version(int vect)
 {
@@ -13,19 +16,19 @@ union REGS regs;
 
 int main()
 {
-	int vect;
-	char far *addr;
+int vect;
+char far *addr;
 
 	vect = 0x22;
-	while ( vect < 0x100){
+	while (vect < 0x100){
 		addr = (char *far)_dos_getvect(vect);
 		addr -= 9L;
-		if (_fstrcmp(addr, "%TEENAPI") == 0) {
+		if (_fstrcmp(addr, TEENIFIDENT) == 0) {
 			teen_version(vect);
-			return 1;
+			return EXIT_SUCCESS;
 		}
 		++vect;
 	}
 	printf("NG");
-	return 0;
+	return EXIT_FAILURE;
 }
