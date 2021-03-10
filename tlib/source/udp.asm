@@ -54,7 +54,7 @@ udp_open_	ENDP
 
 Error	PROC
 
-	MOV	BYTE PTR udperrno_,AL
+	MOV	BYTE PTR _udperrno,AL
 	MOV	AX,-1
 	RET
 
@@ -305,7 +305,7 @@ udp_getpeeraddr_	ENDP
 
 	.DATA?
 
-	PUBLIC	udperrno_
+	PUBLIC	_udperrno
 
-udperrno_	DW ?			;エラー番号
+_udperrno	DW ?			;エラー番号
 end

@@ -29,7 +29,7 @@ getipaddress_	PROC
 	RET
 
 GIA_Err:
-	MOV	BYTE PTR nserrno_,AL
+	MOV	BYTE PTR _nserrno,AL
 	XOR	AX,AX
 	MOV	DX,AX
 
@@ -42,7 +42,7 @@ getipaddress_	ENDP
 
 	.DATA?
 
-	PUBLIC	nserrno_
+	PUBLIC	_nserrno
 
-nserrno_	DW ?				;エラー番号
+_nserrno	DW ?				;エラー番号
 end

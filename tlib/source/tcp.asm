@@ -98,7 +98,7 @@ tcp_shutdown_	ENDP
 
 Error	PROC
 
-	MOV	BYTE PTR tcperrno_,AL
+	MOV	BYTE PTR _tcperrno,AL
 	MOV	AX,-1
 	RET
 
@@ -223,7 +223,7 @@ tcp_getaddr_	ENDP
 
 	.DATA?
 
-	PUBLIC	tcperrno_
+	PUBLIC	_tcperrno
 
-tcperrno_	DW ?			;エラー番号
+_tcperrno	DW ?			;エラー番号
 end
