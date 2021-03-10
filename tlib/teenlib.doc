@@ -1,0 +1,131 @@
+♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠
+
+                 TEEN 用 C 言語関数ライブラリ TEEN.LIB v0.37b
+
+              Copyright (c) XMaZ Project,OPRETER,合著  1997-2001
+
+♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢
+                                                                  2001/ 5/ 2
+
+
+■ 1. 概要
+
+    TEEN.LIB は TEEN API を C 言語プログラムで利用するための関数ライブラリで
+  す。スモールモデル用とラージモデル用があります。使用するコンパイラとしては
+      スモールモデル用: Turbo C  Version 2.0
+      ラージモデル用:   Turbo C++
+  を想定していますが、いずれも Turbo C/C++, MS-C 等で使用可能だと思われます。
+
+    80186,V30 以上の CPU で動作します。機種依存のコードは含んでいません。
+    本ライブラリを組み込んだプログラムを動作させるには、TEEN v0.20 以上が常駐
+  している必要があります。（関数によってはそれ以上のバージョンの TEEN を必要
+  とします。）
+
+
+■ 2. ファイル構成
+
+    TEENLIB.DOC		このファイル
+    LIB\TEEN.LIB	ライブラリ(スモールモデル用)
+    LIB\TEEN_L.LIB	ライブラリ(ラージモデル用)
+    INCLUDE\TCP.H	TCP 関連関数を使うための .H ファイル
+    INCLUDE\UDP.H	UDP 関連関数を使うための .H ファイル
+    INCLUDE\IP.H        ルーティング関連、ICMP関連関数を使うための .H ファイル
+    INCLUDE\ARP.H       ARP関連関数を使うための .H ファイル
+    INCLUDE\INET.H	IPアドレス 関連関数を使うための .H ファイル
+    INCLUDE\NS.H	ネームサービス関連関数を使うための .H ファイル
+    INCLUDE\INDICATE.H	インジケータ関連関数を使うための .H ファイル
+    INCLUDE\TEEN.H	その他の関数を使うための .H ファイル
+    INCLUDE\TTYPES.H	共通マクロ定義
+    			(上記 .H から include される)
+    SOURCE.LZH		ライブラリソース(スモールモデル)
+    SOURCE_L.LZH	ライブラリソース(ラージモデル)
+    TEEN.REF		ライブラリリファレンス
+    TEENAPI.DOC		TEEN API リファレンス
+    UDPECHO.LZH         UDP 関連関数を使ったプログラムのサンプル
+
+
+    TEEN.REF および TEENAPI.DOC の更新がおろそかになっており、v0.32 以降に追
+  加された機能のうち、以下の解説がまだありません。
+    A0h arp_getentry ARPテーブルエントリの取得 (ARP.H)
+    4Ch tcp_peek     TCPにおける非破壊読み出し。tcp_recvと機能はほぼ同じです
+                     が、受信データを消費しない点が異なります。つまり、次回
+                     tcp_peekまたはtcp_recvを実行した時に前回のtcp_peekで
+                     読み出したのと同じデータが読み出されます。(TCP.H)
+		     (この機能を呼び出す C言語関数はまだ用意していません)
+    03h teen_mtime   1msec単位でカウントアップされるカウンタの値を読み出しま
+                     す。実際の精度はTEEN.DEFでの設定や標準/MCD/Ethernet版の
+                     違いによって異なりますが、1〜100msec程度です。(TEEN.H)
+
+
+■ 3. ライブラリの再構築
+
+    スモールモデル用ライブラリの作成には以下を用いました。
+
+    | OPTASM Copyright (C) SLR Systems 1988 Release 1.60 
+    | Turbo C  Version 2.0  Copyright (c) 1987, 1988 Borland International
+    | Turbo Link  Version 2.0  Copyright (c) 1987, 1988 Borland International
+    | MAKE  Version 2.0   Copyright (c) 1987, 1988 Borland International
+
+    これら以外でのソフトでも、ソースに殆ど変更を加えずにライブラリを再構築で
+  きるのではないかと思います。
+
+    ライブラリを再構築する場合は SOURCE.LZH 内の MAKEFILE の次の行
+      INCDIR = B:\TCC\INCLUDE
+  を書き替える必要があります。 INCDIR には標準の .H ファイルを置いてあるディ
+  レクトリ名を指定します。
+
+    ラージモデル用ライブラリの作成には、Turbo C++ Version 1.01, MASM を用いま
+  した。
+
+
+■ 4. 使用上の注意
+
+　　このライブラリを使用したために何らかの損害が生じたとしても、著作者は一切
+  責任を負いません。使用者の責任において使用するようにしてください。
+
+    TEEN.REF で解説されているエラーコードの中には、TEEN のバージョンによって
+  は実際には返さないものが含まれます。また、状態を取得する関数の返す状態番号
+  も同様です。
+
+
+■ 5. 配布等
+
+    ・TEEN.LIB はフリーウエアです。著作権を放棄するものではありません。
+    ・転載・再配布は自由です。ただし、実費・手数料以上の徴収を禁じます。また、
+      その際にはファイル構成を変更しないでください。転載したときは、事後でも
+      構いませんのでメールなどで知らせて頂けると幸いです。
+    ・本ライブラリをベースにして改編したライブラリを配布する際は、改編内容を
+      明記してください。
+    ・本ライブラリ、ライブラリソースを組み込んだプログラムの配布・販売は自由
+      に行なって頂いて構いません。
+
+
+■ 6. 連絡先
+
+    ・電子メール
+    　PC-VAN           LXB91624 (Shinra)
+    　東京BBS          SHINRA
+      Internet         shinra@mtj.biglobe.ne.jp
+
+    ・WWW(ホームページ)
+      http://www.pc88.gr.jp/~teen/
+
+
+♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢♢
+■ 更新履歴
+
+1998/ 3/13 v0.20  
+1998/ 4/ 8 v0.21  以下の関数を追加
+		    teen_machine
+		    indicate_sw,indicate_char,indicate_int,indicate_str
+1998/ 9/17 v0.23  以下の関数を追加
+		    tcp_getaddr
+2000/ 2/10 v0.32  UDP関連、IPアドレス関連関数を追加
+2000/ 8/24 v0.32a OPRETERさんと合著さんが作成して下さったラージモデル用を追加
+2001/ 4/13 v0.37  以下の関数を追加
+		    teen_mtime,arp_getentry,ip_getrtentry
+		    icmp_send,icmp_recv
+2001/ 4/24 v0.37a icmp_send,icmp_recvの仕様を変更
+		  icmp_send,icmp_recv,ip_getrtentryの解説を追加
+2001/ 5/ 2 v0.37b v0.32以降追加された関数のラージモデル版を追加(合著さん作)
+
