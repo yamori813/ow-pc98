@@ -14,7 +14,7 @@ CFLAGS=-I$(WATCOM)/h -I../include/
 
 OBJS=arp.o dialup.o dns.o in_addr2.o in_addrv.o in_wild.o ind_char.o ind_int.o ind_str.o ind_sw.o ip_icmp.o ip_route.o t_avail.o t_mach.o t_search.o t_versio.o tcp.o timer.o udp.o in_addr.o
 
-all: test.exe 
+all: teen_ow.lib
 
 test.exe : test.c teen_ow.lib
 	$(WCL) $(CFLAGS) -fe=$@ test.c teen_ow.lib
