@@ -9,9 +9,12 @@ WCL=bwcl
 
 CFLAGS=-I$(WATCOM)/h -ml
 
-all: tver.exe
+all: tver.exe tdns.exe
 
 tver.exe : tver.c
+	$(WCL) $(CFLAGS) $?
+
+tdns.exe : tdns.c
 	$(WCL) $(CFLAGS) $?
 
 clean:
