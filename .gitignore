@@ -1,0 +1,6 @@
+*.o
+*.com
+*.exe
+*.lib
+*.bak
+*.err
