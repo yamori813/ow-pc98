@@ -32,13 +32,17 @@ BufAddrTable	ENDS
 ;　破壊：
 udp_open_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
+	PUSH	ES
 
-	LES	DI,[BX+2]
+;	LES	DI,[BX+2]
+	MOV	DI,AX
+	MOV	ES,DX
 	MOV	AL,0
 	$TEEN	50h
 
+	POP	ES
 	POP	DI
 	JC	Error
 	RET
@@ -60,6 +64,29 @@ Error	PROC
 
 Error	ENDP
 
+Error6	PROC
+
+	MOV	BYTE PTR _udperrno,AL
+	MOV	AX,-1
+	RET	6
+
+Error6	ENDP
+
+Error4	PROC
+
+	MOV	BYTE PTR _udperrno,AL
+	MOV	AX,-1
+	RET	4
+
+Error4	ENDP
+
+Error8	PROC
+
+	MOV	BYTE PTR _udperrno,AL
+	MOV	AX,-1
+	RET	8
+
+Error8	ENDP
 
 ;char udp_close(char handle);
 ;
@@ -68,8 +95,8 @@ Error	ENDP
 ;　破壊：
 udp_close_	PROC
 
-	MOV	BX,SP
-	MOV	AL,[BX+2]
+;	MOV	BX,SP
+;	MOV	AL,[BX+2]
 	$TEEN	51h
 	JC	Error
 	RET
@@ -83,14 +110,19 @@ udp_close_	ENDP
 ;　破壊：
 udp_send_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
+	PUSH	ES
 	
-	MOV	AL,[BX+2]
-	LES	DI,[BX+4]
-	MOV	CX,[BX+8]
+;	MOV	AL,[BX+2]
+;	LES	DI,[BX+4]
+;	MOV	CX,[BX+8]
+	MOV	DI,BX
+	MOV	ES,CX
+	MOV	CX,DX
 	$TEEN	54h
 	
+	POP	ES
 	POP	DI
 	JC	Error
 	RET
@@ -104,14 +136,19 @@ udp_send_	ENDP
 ;　破壊：
 udp_recv_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
+	PUSH	ES
 
-	MOV	AL,[BX+2]
-	LES	DI,[BX+4]
-	MOV	CX,[BX+8]
+;	MOV	AL,[BX+2]
+;	LES	DI,[BX+4]
+;	MOV	CX,[BX+8]
+	MOV	DI,BX
+	MOV	ES,CX
+	MOV	CX,DX
 	$TEEN	55h
 
+	POP	ES
 	POP	DI
 	JC	Error
 	RET
@@ -126,55 +163,37 @@ udp_recv_	ENDP
 ;　破壊：
 udp_sendto_	PROC
 
-IF 1
+	MOV	TMP,BX
 	MOV	BX,SP
-	PUSH	[BX+12]	;toaddr SEG
-	PUSH	[BX+10]	;toaddr OFS
-	PUSH	[BX+14]	;port
-	PUSH	[BX+ 8]	;len
-	PUSH	[BX+ 6]	;buf SEG
-	PUSH	[BX+ 4] ;buf OFS
-	MOV	AX,SP
+	PUSH	ES
 	PUSH	DI
+	MOV	DI,OFFSET WBAT
+;	MOV	WORD PTR [DI+0], BX
+	MOV	WORD PTR [DI+2], CX
+	MOV	WORD PTR [DI+4], DX
+	MOV	CX,[BX+6]
+	MOV	WORD PTR [DI+6], CX
+	MOV	CX,[BX+2]
+	MOV	WORD PTR [DI+8], CX
+	MOV	CX,[BX+4]
+	MOV	WORD PTR [DI+10], CX
+	MOV	CX,TMP
+	MOV	WORD PTR [DI+0], CX
 
-	MOV	DI,AX
 	PUSH	DS
 	POP	ES
 
-	MOV	AL,[BX+2]	;handle
-
-ELSE
-	MOV	BX,SP
-	SUB	SP,TYPE BufAddrTable
-	MOV	AX,SP
-	PUSH	DI
-
-	MOV	DI,AX
-
-	LES	AX,[BX+4]	;buf
-	MOV	WORD PTR [DI].BAT_Buf[0],AX
-	MOV	WORD PTR [DI].BAT_Buf[2],ES
-	MOV	AX,[BX+8]	;len
-	MOV	[DI].BAT_Len,AX
-	LES	AX,[BX+10]	;toaddr
-	MOV	WORD PTR [DI].BAT_Addr[0],AX
-	MOV	WORD PTR [DI].BAT_Addr[2],ES
-	MOV	AX,[BX+14]	;toport
-	MOV	[DI].BAT_Port,AX
-	MOV	AL,[BX+2]	;handle
-
-	PUSH	DS
-	POP	ES
-ENDIF
+;	MOV	AL,[BX+2]	;handle
 
 	PUSH	BX		;念のため
 	$TEEN	56h
 	POP	BX
 
 	POP	DI
-	MOV	SP,BX
-	JC	Error
-	RET
+	POP	ES
+;	MOV	SP,BX
+	JC	Error6
+	RET	6
 
 udp_sendto_	ENDP
 
@@ -186,60 +205,43 @@ udp_sendto_	ENDP
 ;　破壊：
 udp_recvfrom_	PROC
 
-IF 1
+	MOV	TMP,BX
 	MOV	BX,SP
-	PUSH	[BX+12]	;addr SEG
-	PUSH	[BX+10]	;addr OFS
-	PUSH	0	;Port
-	PUSH	[BX+ 8]	;len
-	PUSH	[BX+ 6]	;buf SEG
-	PUSH	[BX+ 4] ;buf OFS
-	MOV	AX,SP
+	PUSH	ES
 	PUSH	DI
-
-	MOV	DI,AX
-	PUSH	DS
-	POP	ES
-
-	MOV	AL,[BX+2]	;handle
-
-ELSE
-
-	MOV	BX,SP
-	SUB	SP,TYPE BufAddrTable
-	MOV	AX,SP
-	PUSH	DI
-
-	MOV	DI,AX
-
-	LES	AX,[BX+4]	;buf
-	MOV	WORD PTR [DI].BAT_Buf[0],AX
-	MOV	WORD PTR [DI].BAT_Buf[2],ES
-	MOV	AX,[BX+8]	;len
-	MOV	[DI].BAT_Len,AX
-	LES	AX,[BX+10]	;toaddr
-	MOV	WORD PTR [DI].BAT_Addr[0],AX
-	MOV	WORD PTR [DI].BAT_Addr[2],ES
-	MOV	AL,[BX+2]	;handle
+	MOV	DI,OFFSET WBAT
+;	MOV	WORD PTR [DI+0], BX
+	MOV	WORD PTR [DI+2], CX
+	MOV	WORD PTR [DI+4], DX
+	MOV	CX,0
+	MOV	WORD PTR [DI+6], CX
+	MOV	CX,[BX+2]
+	MOV	WORD PTR [DI+8], CX
+	MOV	CX,[BX+4]
+	MOV	WORD PTR [DI+10], CX
+	MOV	CX,TMP
+	MOV	WORD PTR [DI+0], CX
 
 	PUSH	DS
 	POP	ES
-ENDIF
 
 	PUSH	BX		;念のため
 	$TEEN	57h
 	POP	BX
 
 	JC	UDP_RecvFrom_1
-		MOV	DX,[DI].BAT_Port
-		LES	DI,[BX+14]	;port
-		MOV	ES:[DI],DX
+	MOV	DX,[DI+6]
+	LES	DI,[BX+8]	;port SEG
+	MOV	ES,DI
+	LES	DI,[BX+6]	;port OFS
+	MOV	ES:[DI],DX
 UDP_RecvFrom_1:
 
 	POP	DI
-	MOV	SP,BX
-	JC	Error
-	RET
+	POP	ES
+;	MOV	SP,BX
+	JC	Error8
+	RET	8
 
 udp_recvfrom_	ENDP
 
@@ -251,8 +253,8 @@ udp_recvfrom_	ENDP
 ;　破壊：
 udp_state_	PROC
 
-	MOV	BX,SP
-	MOV	AL,[BX+2]
+;	MOV	BX,SP
+;	MOV	AL,[BX+2]
 	$TEEN	52h
 	JC	Error
 	RET
@@ -270,22 +272,30 @@ udp_getmyaddr_	PROC
 	MOV	AH,5Ah
 
 UDP_GetAddr:
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
+	PUSH	ES
 
-	MOV	AL,[BX+2]	;handle
-	LES	DI,[BX+4]	;addr
+;	MOV	AL,[BX+2]	;handle
+;	LES	DI,[BX+4]	;addr
+	MOV	DI,BX
+	MOV	ES,CX
 
 	$TEEN	;AH
 
+	POP	ES
 	POP	DI
-	JC	Error
+	JC	Error4
 
-	LES	BX,[BX+8]	;port
+;	LES	BX,[BX+8]	;port
+;	MOV	ES:[BX],AX
+	MOV	BX,SP
+	LES	CX,[BX+4]	;port seg
+	MOV	ES,CX
+	LES	BX,[BX+2]	;port off
 	MOV	ES:[BX],AX
-
 	XOR	AX,AX
-	RET
+	RET	4
 udp_getmyaddr_	ENDP
 
 
@@ -307,5 +317,8 @@ udp_getpeeraddr_	ENDP
 
 	PUBLIC	_udperrno
 
+
 _udperrno	DW ?			;エラー番号
+WBAT		DW 6 DUP(10)
+TMP		DW ?
 end
