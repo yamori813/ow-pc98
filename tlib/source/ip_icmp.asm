@@ -35,13 +35,17 @@ ICMPPRM	ENDS
 ;　破壊：
 icmp_send_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
+	PUSH	ES
 
-	LES	DI,[BX+2]	;icmpprm
+;	LES	DI,[BX+2]	;icmpprm
+	MOV	DI,AX
+	MOV	ES,DX
 
 	$TEEN	64h
 
+	POP	ES
 	POP	DI
 
 	JNC	IS_Exit
@@ -61,14 +65,18 @@ icmp_send_	ENDP
 ;　破壊：
 icmp_recv_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
+	PUSH	ES
 
-	LES	DI,[BX+2]	;icmpprm
+;	LES	DI,[BX+2]	;icmpprm
+	MOV	DI,AX
+	MOV	ES,DX
 
 	$TEEN	65h
 	MOV	AX,[DI].P_Len	;受信バイト数
 
+	POP	ES
 	POP	DI
 
 	JNC	IR_Exit

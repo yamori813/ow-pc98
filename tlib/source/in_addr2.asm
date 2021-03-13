@@ -19,18 +19,30 @@
 ;　破壊：
 inet_toipaddr_	PROC
 
-	MOV	AH,20h
-INET_To:
-	MOV	BX,SP
 	PUSH	SI
 	PUSH	DI
+	PUSH	ES
+	MOV	SI,AX
+;	MOV	DX,DX
+	MOV	DI,BX
+	MOV	ES,CX
+	MOV	AH,20h
+INET_To:
+;	POP	SI
+;	MOV	BX,SP
+;	PUSH	SI
+;	PUSH	DI
+;	PUSH	ES
 
-	LES	SI,[BX+2]	;addr
-	MOV	DX,ES
-	LES	DI,[BX+6]	;ipaddr
+;	LES	SI,[BX+2]	;addr
+;	MOV	DX,ES
+;	LES	DI,[BX+6]	;ipaddr
+	MOV	DI,BX
+	MOV	ES,CX
 
 	$TEEN	;AH
 
+	POP	ES
 	POP	DI
 	POP	SI
 	JC	Error
@@ -49,6 +61,13 @@ inet_toipaddr_	ENDP
 ;　出力：
 ;　破壊：
 inet_tostr_	PROC
+	PUSH	SI
+	PUSH	DI
+	PUSH	ES
+	MOV	SI,AX
+;	MOV	DX,DX
+	MOV	DI,BX
+	MOV	ES,CX
 	MOV	AH,21h
 	JMP	INET_To
 inet_tostr_	ENDP

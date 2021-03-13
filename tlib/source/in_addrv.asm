@@ -17,22 +17,33 @@
 ;　入力：
 ;　出力：
 ;　破壊：
-inet_toipv_4addr	PROC
-	MOV	BX,SP
+inet_toipv4addr_	PROC
+;	MOV	BX,SP
 
+	PUSH	BX
+	PUSH	CX
 	PUSH	DI
+	PUSH	ES
 
-	LES	DI,[BX+2]	;addr
+;	LES	DI,[BX+2]	;addr
+	MOV	DI,AX
+	MOV	ES,DX
 	$TEEN	22h
 
+	POP	ES
 	POP	DI
+	POP	CX
+	POP	BX
 
 	JC	Error
 
-	LES	BX,[BX+6]	;ipv4addr
+;	LES	BX,[BX+6]	;ipv4addr
+;	MOV	ES:[BX+0],AX
+;	MOV	ES:[BX+2],DX
+	MOV	ES,CX
 	MOV	ES:[BX+0],AX
 	MOV	ES:[BX+2],DX
-
+	
 	MOV	AL,0
 	RET
 
@@ -40,7 +51,7 @@ Error:
 	MOV	AL,-1
 	RET
 
-inet_toipv_4addr	ENDP
+inet_toipv4addr_	ENDP
 
 
 ;void inet_ipv4addrtoipaddr(IDWORD ipv4addr, IPADDR far *ipaddr);
@@ -48,18 +59,25 @@ inet_toipv_4addr	ENDP
 ;　入力：
 ;　出力：
 ;　破壊：
-inet_ipv_4addrtoipaddr	PROC
-	MOV	BX,SP
+inet_ipv4addrtoipaddr_	PROC
+;	MOV	BX,SP
 	PUSH	DI
+	PUSH	ES
 
-	LES	DI,[BX+6]	;ipaddr
-	MOV	DX,[BX+4]	;ipv4addr 上位
-	MOV	BX,[BX+2]	;ipv4addr 下位
+;	LES	DI,[BX+6]	;ipaddr
+;	MOV	DX,[BX+4]	;ipv4addr 上位
+;	MOV	BX,[BX+2]	;ipv4addr 下位
+;	MOV	DI,CX
+;	MOV	DX,AX
+	MOV	DI,BX
+	MOV	ES,CX
+	MOV	BX,AX
 	$TEEN	23h
 
+	POP	ES
 	POP	DI
 	RET
-inet_ipv_4addrtoipaddr	ENDP
+inet_ipv4addrtoipaddr_	ENDP
 
 
 end
