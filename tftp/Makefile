@@ -7,7 +7,7 @@ WATCOM=/home/hiroki/ow/open-watcom-v2/rel
 
 WCL=bwcl
 
-CFLAGS=-I$(WATCOM)/h -I../tlib/include -DNET_TEEN
+CFLAGS=-I$(WATCOM)/h -I../tlib/include -DNET_TEEN -zk0
 
 all: tftp.exe
 
