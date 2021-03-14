@@ -7,7 +7,7 @@ WATCOM=/home/hiroki/ow/open-watcom-v2/rel
 
 WCL=bwcl
 
-CFLAGS=-I$(WATCOM)/h -I../tlib/include
+CFLAGS=-I$(WATCOM)/h -I../tlib/include -zk0
 
 all: ping.exe
 

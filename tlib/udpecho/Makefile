@@ -7,7 +7,7 @@ WATCOM=/home/hiroki/ow/open-watcom-v2/rel
 
 WCL=bwcl
 
-CFLAGS=-I$(WATCOM)/h -I../include
+CFLAGS=-I$(WATCOM)/h -I../include -zk0
 
 all: udpecho.exe
 
