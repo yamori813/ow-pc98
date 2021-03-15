@@ -17,12 +17,16 @@
 ;　破壊：
 arp_getentry_	PROC
 
-		MOV	BX,SP
+;		MOV	BX,SP
 		PUSH	DI
 
-		MOV	CL,[BX+2]	;n
-		LES	DI,[BX+4]	;buf
-		MOV	CH,[BX+8]	;bufsize
+;		MOV	CL,[BX+2]	;n
+;		LES	DI,[BX+4]	;buf
+;		MOV	CH,[BX+8]	;bufsize
+		MOV	DI,BX
+		MOV	ES,CX
+		MOV	CL,AL
+		MOV	CH,DL
 
 		$TEEN	0A0h
 
