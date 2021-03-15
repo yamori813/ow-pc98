@@ -21,10 +21,12 @@
 ;　破壊：
 tcp_activeopen_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
 
-	LES	DI,[BX+2]
+;	LES	DI,[BX+2]
+	MOV	DI,AX
+	MOV	ES,DX
 	$TEEN	40h
 
 	POP	DI
@@ -41,11 +43,14 @@ tcp_activeopen_	ENDP
 ;　破壊：
 tcp_passiveopen_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
 	
-	MOV	DX,[BX+2]
-	LES	DI,[BX+4]
+;	MOV	DX,[BX+2]
+;	LES	DI,[BX+4]
+	MOV	DX,AX
+	MOV	DI,BX
+	MOV	ES,CX
 	$TEEN	41h
 	
 	POP	DI
@@ -62,11 +67,13 @@ tcp_passiveopen_	ENDP
 ;　破壊：
 tcp_accept_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
 	
-	MOV	AL,[BX+2]
-	LES	DI,[BX+4]
+;	MOV	AL,[BX+2]
+;	LES	DI,[BX+4]
+	MOV	DI,BX
+	MOV	ES,CX
 	$TEEN	42h
 	
 	POP	DI
@@ -83,8 +90,8 @@ tcp_accept_	ENDP
 ;　破壊：
 tcp_shutdown_	PROC
 
-	MOV	BX,SP
-	MOV	AL,[BX+2]
+;	MOV	BX,SP
+;	MOV	AL,[BX+2]
 	$TEEN	43h
 	JC	Error
 	RET
@@ -104,6 +111,14 @@ Error	PROC
 
 Error	ENDP
 
+Error2	PROC
+
+	MOV	BYTE PTR _tcperrno,AL
+	MOV	AX,-1
+	RET	2
+
+Error2	ENDP
+
 
 ;char tcp_close(char handle);
 ;
@@ -112,8 +127,8 @@ Error	ENDP
 ;　破壊：
 tcp_close_	PROC
 
-	MOV	BX,SP
-	MOV	AL,[BX+2]
+;	MOV	BX,SP
+;	MOV	AL,[BX+2]
 	$TEEN	44h
 	JC	Error
 	RET
@@ -127,18 +142,22 @@ tcp_close_	ENDP
 ;　破壊：
 tcp_send_	PROC
 
-	MOV	BX,SP
 	PUSH	DI
 	
-	MOV	AL,[BX+2]
-	LES	DI,[BX+4]
-	MOV	CX,[BX+8]
-	MOV	DX,[BX+10]
+;	MOV	AL,[BX+2]
+;	LES	DI,[BX+4]
+;	MOV	CX,[BX+8]
+;	MOV	DX,[BX+10]
+	MOV	DI,BX
+	MOV	ES,CX
+	MOV	CX,DX
+	MOV	BX,SP
+	MOV	DX,[BX+2]
 	$TEEN	45h
 	
 	POP	DI
-	JC	Error
-	RET
+	JC	Error2
+	RET	2
 
 tcp_send_	ENDP
 
@@ -149,12 +168,15 @@ tcp_send_	ENDP
 ;　破壊：
 tcp_recv_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
 
-	MOV	AL,[BX+2]
-	LES	DI,[BX+4]
-	MOV	CX,[BX+8]
+;	MOV	AL,[BX+2]
+;	LES	DI,[BX+4]
+;	MOV	CX,[BX+8]
+	MOV	DI,BX
+	MOV	ES,CX
+	MOV	CX,DX
 	$TEEN	46h
 
 	POP	DI
@@ -172,8 +194,8 @@ tcp_recv_	ENDP
 ;　破壊：
 tcp_state_	PROC
 
-	MOV	BX,SP
-	MOV	AL,[BX+2]
+;	MOV	BX,SP
+;	MOV	AL,[BX+2]
 	$TEEN	47h
 	JC	Error
 	RET
@@ -188,8 +210,8 @@ tcp_state_	ENDP
 ;　破壊：
 tcp_downstate_	PROC
 
-	MOV	BX,SP
-	MOV	AL,[BX+2]
+;	MOV	BX,SP
+;	MOV	AL,[BX+2]
 	$TEEN	48h
 	JC	Error
 	RET
@@ -204,11 +226,13 @@ tcp_downstate_	ENDP
 ;　破壊：
 tcp_getaddr_	PROC
 
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
 
-	MOV	AL,[BX+2]
-	LES	DI,[BX+4]
+;	MOV	AL,[BX+2]
+;	LES	DI,[BX+4]
+	MOV	DI,BX
+	MOV	ES,CX
 	$TEEN	49h
 
 	POP	DI
