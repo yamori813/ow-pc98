@@ -18,9 +18,11 @@
 ;　出力：
 ;　破壊：
 inet_iswildcard_	PROC
-	MOV	BX,SP
+;	MOV	BX,SP
 	PUSH	DI
-	LES	DI,[BX+2]	;addr
+;	LES	DI,[BX+2]	;addr
+	MOV	DI,AX
+	MOV	ES,DX
 	$TEEN	24h
 	POP	DI
 	RET
