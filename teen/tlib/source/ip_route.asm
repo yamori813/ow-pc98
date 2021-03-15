@@ -17,12 +17,16 @@
 ;　破壊：
 ip_getrtentry_	PROC
 
-		MOV	BX,SP
+;		MOV	BX,SP
 		PUSH	DI
 
-		MOV	CH,[BX+2]	;n
-		LES	DI,[BX+4]	;buf
-		MOV	CL,[BX+8]	;bufsize
+;		MOV	CH,[BX+2]	;n
+;		LES	DI,[BX+4]	;buf
+;		MOV	CL,[BX+8]	;bufsize
+		MOV	DI,BX
+		MOV	ES,CX
+		MOV	CL,DL
+		MOV	CH,AL
 
 		$TEEN	60h
 
