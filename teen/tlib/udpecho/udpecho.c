@@ -260,9 +260,16 @@ void usage(void)
 
 void main(int argc, char *argv[])
 {
+char svr[64];
+
 	if (argc>1 && (argv[1][0]=='/' || argv[1][0]=='-')) {
 		usage();
 		return;
+	}
+	/* workaround for broken argc and argv */
+	svr[0] = 0;
+	if (argc == 2 && strlen(argv[1]) < sizeof(svr)) {
+		strcpy(svr, argv[1]);
 	}
 
 	if (!teen_available()) {
@@ -282,15 +289,12 @@ void main(int argc, char *argv[])
 			return;
 		}
 	}
-/*
-	if (argc>1) {
-		udpecho(argv[1]);
+	if (strlen(svr)) {
+		udpecho(svr);
 	}
 	else {
 		udpecho_noconnection();
 	}
-	*/
-	udpecho_noconnection();
 
 }
 
