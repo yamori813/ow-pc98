@@ -2,11 +2,11 @@
 # BSD Makefile for fm_opl3.exe
 #
 
-WATCOM=/home/hiroki/ow/open-watcom-v2/rel
+WATCOM=$(HOME)/watcom
 .export WATCOM
 
-WCC=bwcc
-WCL=bwcl
+WCC=wcc
+WCL=wcl
 
 CFLAGS=-I$(WATCOM)/h
 

@@ -2,13 +2,13 @@
 # BSD Makefile for Open Watcom v2 tools
 #
 
-WATCOM=/home/hiroki/ow/open-watcom-v2/rel
+WATCOM=$(HOME)/watcom
 .export WATCOM
 
-WCL=bwcl
-WASM=bwasm
-WCC=bwcc
-WLIB=bwlib
+WCL=wcl
+WASM=wasm
+WCC=wcc
+WLIB=wlib
 
 CFLAGS=-I$(WATCOM)/h -I../include/
 
