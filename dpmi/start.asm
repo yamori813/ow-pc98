@@ -1,5 +1,4 @@
 ;--- this is a 32bit DPMI application.
-;--- assemble+link: JWasm -mz Dos3.asm
 
     .386
     .model small
