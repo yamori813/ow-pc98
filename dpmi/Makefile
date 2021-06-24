@@ -15,15 +15,15 @@ CFLAGS=-I$(WATCOM)/h
 all : dpmi32.exe welcome.exe hello.exe
 
 hello.exe :
-	$(WASM) start.asm
+	$(WASM) start16.asm
 	$(WASM) main.asm
 	$(WCC) hello.c
-	wlink op map name hello file start.o,main.o,hello system dos
+	wlink op map name hello file start16.o,main.o,hello system dos
 
 welcome.exe :
-	$(WASM) start.asm
+	$(WASM) start16.asm
 	$(WASM) welcome.asm
-	wlink name welcome file start.o,welcome.o system dos
+	wlink name welcome file start16.o,welcome.o system dos
 
 dpmi32.exe : dpmi32.asm
 	wasm dpmi32.asm
