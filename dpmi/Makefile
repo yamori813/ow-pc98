@@ -4,30 +4,32 @@
 
 WATCOM=$(HOME)/watcom
 .export WATCOM
-LIB=$(WATCOM)/lib386
-.export LIB 
+#LIB=$(WATCOM)/lib386
+#.export LIB 
 
 WCC=wcc386
 WASM=wasm
+WLINK=wlink
 
-CFLAGS=-I$(WATCOM)/h
+# now use stack check
+CFLAGS=-I$(WATCOM)/h -s
 
 all : dpmi32.exe welcome.exe hello.exe
 
 hello.exe :
 	$(WASM) start16.asm
 	$(WASM) main.asm
-	$(WCC) hello.c
-	wlink op map name hello file start16.o,main.o,hello system dos
+	$(WCC) $(CFLAGS) hello.c
+	$(WLINK) op map name hello file start16,main,hello system dos
 
 welcome.exe :
 	$(WASM) start16.asm
 	$(WASM) welcome.asm
-	wlink name welcome file start16.o,welcome.o system dos
+	$(WLINK) name welcome file start16,welcome system dos
 
 dpmi32.exe : dpmi32.asm
-	wasm dpmi32.asm
-	wlink file dpmi32.o system dos
+	$(WASM) dpmi32.asm
+	$(WLINK) file dpmi32 system dos
 
 clean:
 	rm -rf *.o *.err *.com *.exe *.map

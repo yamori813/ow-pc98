@@ -1,4 +1,7 @@
+/*
+change wcc -s option
 #pragma off (check_stack);
+*/
 
 void printstring(char *);
 
